@@ -21,5 +21,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "pug-as-jsx-loader": "^1.0.66"
+  }
 }
