@@ -1,70 +1,109 @@
 import React, { Component } from 'react';
-import YandexMap from './YandexMap';
+import YandexMap from './RouteMap';
 import './RouteRedactor.sass'
-import { applyDrag} from './utils';
-import DragContainer from './dragContainer';
+import RouteList from './RouteList';
+import { generateId, applyDrag } from '../../scripts/helpers';
+import RouteInput from './RouteInput';
 
 
 class RouteRedactor extends Component {
 	constructor (props) {
-		super(props)
+		super(props);
 		this.state = {
-			routes: [
-				{id: 0, coords: [55.75, 37.57], data: 'Draggable' + 1, showInfo: false},
-				{id: 1, coords: [54.75, 39.57], data: 'Draggable' + 3, showInfo: false},
-				{id: 2, coords: [56.75, 39.57], data: 'Draggable' + 2, showInfo: false}
-				]
-		}
-	}
-	handleKeyPress = (e) => {
-		if (e.key === 'Enter') {
-			this.setState({routes: [...this.state.routes, {id: this.generateId(), coords: [55.75, 37.57], data: 'Draggable'}] })
+			ADD_ROUT_STATE: 'AWAIT',
+			REMOVE_ROUTE_STATE: 'AWAIT',
+			RENDER_POLYLINE_STATE: 'AWAIT',
+			routes: [],
+			removeItemIndex: null,
+			centerMap: [55.751574, 37.573856]
 		}
 	}
 
-	generateId = () =>  {
-		let index = 0
+	addRouteToState = (value) => {
+		this.setState({routes: [...this.state.routes, {id: generateId(this.state.routes), coords: this.state.centerMap, data: value}], ADD_ROUT_STATE: 'PROCESS' })
+	};
 
-		for (let a = 0;  a < this.state.routes.length; a++){
-			if(index === this.state.routes[index].id){
-				index ++
-			}else {
-				break
+	addPlacemarkToState = (placemark) => {
+		let stateCopy = Object.assign({}, this.state);
+		stateCopy.routes.forEach((item)=>{
+			if(item.id === placemark.id) {
+				stateCopy.routes[item.id].placemark= placemark.placemark;
 			}
-		}
-		console.log(index)
-		return index
-	}
+		})
+		this.setState(stateCopy);
+		this.setState({ADD_ROUT_STATE: 'AWAIT', RENDER_POLYLINE_STATE: 'PROCESS'})
+	};
 
-	removeItem = (index) =>{
-		console.log(index)
+	removeItem = (index) => {
 		this.setState({
-			routes: this.state.routes.filter((_, i) => i !== index)
+			REMOVE_ROUTE_STATE: 'PROCESS',
+			removeItemIndex: index
 		});
-	}
+	};
 
-	handler = (lat, lng, id) => {
-		console.log(lat, lng, id)
-		var stateCopy = Object.assign({}, this.state);
-		stateCopy.routes[id].coords[0] = lat;
-		stateCopy.routes[id].coords[1] = lng;
-		this.setState(stateCopy);
-	}
+	removeRouteFromState = () => {
+		this.setState({
+			routes: this.state.routes.filter((_, i) => i !== this.state.removeItemIndex),
+			REMOVE_ROUTE_STATE: 'AWAIT',
+			RENDER_POLYLINE_STATE: 'PROCESS'
+		});
+	};
 
-	openInfo = (index) => {
-		var stateCopy = Object.assign({}, this.state);
-		stateCopy.routes[index].showInfo = !stateCopy.routes[index].showInfo;
+	endPolylineRender = () => {
+		this.setState({
+			RENDER_POLYLINE_STATE: 'AWAIT'
+		});
+	};
+
+	setRouteCoordinates = (marker) => {
+		let stateCopy = Object.assign({}, this.state);
+		stateCopy.routes.forEach((item, index)=>{
+			if(item.id === marker.id) {
+				stateCopy.routes[index].coords= marker.coords;
+			}
+		});
 		this.setState(stateCopy);
-	}
+	};
+
+	setCenter = (newCenter) => {
+		this.setState({centerMap: newCenter})
+	};
+
+	reorderRoutes = (e) =>{
+		this.setState({ routes: applyDrag(this.state.routes, e), RENDER_POLYLINE_STATE: 'PROCESS'})
+	};
 
 	render() {
+		const {ymaps} = window;
+		const props = {
+			ymaps: ymaps,
+			centerMap: this.state.centerMap,
+			removeItemIndex: this.state.removeItemIndex,
+			removeRouteState: this.state.REMOVE_ROUTE_STATE,
+			addRouteState: this.state.ADD_ROUT_STATE,
+			routes: this.state.routes,
+			renderPolylineState: this.state.RENDER_POLYLINE_STATE,
+			setRouteCoordinates: this.setRouteCoordinates,
+			addPlacemarkToState: this.addPlacemarkToState,
+			removeRouteFromState: this.removeRouteFromState,
+			endPolylineRender: this.endPolylineRender,
+			setCenter: this.setCenter
+		};
+
 		return (
-			<div className="route-redactor">
-				<div className="route-redactor__routes">
-					<input className="route-redactor__routes__input" onKeyPress={this.handleKeyPress} height="48" placeholder="Ведите название маршрута" />
-					<DragContainer routes={this.state.routes} removeItem = {this.removeItem} onDrop = {e => this.setState({ routes: applyDrag(this.state.routes, e)})} />
+			<div className='router-redactor'>
+				<div className="container">
+					<div className="row justify-content-center">
+						<div className="col-3">
+							<RouteInput addRouteToState={this.addRouteToState}/>
+							<RouteList routes={this.state.routes}	removeItem = {this.removeItem} onDrop = {e => this.reorderRoutes(e) }
+							/>
+						</div>
+						<div className="col-6">
+							<YandexMap { ...props }	/>
+						</div>
+					</div>
 				</div>
-				<YandexMap routes={this.state.routes} handler = {this.handler} openInfo = {this.openInfo}/>
 			</div>
 
 		);

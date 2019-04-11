@@ -1,11 +1,12 @@
-.route-redactor
+.router-redactor
   display: flex
-  flex-direction: row
-  &__routes
-    margin-right: 10px
-    &__input
-      height: 30px
-      margin-bottom: 10px
+  align-items: center
+  min-height: 100vh
+  &__input
+    width: 100%
+    margin-bottom: 10px
+
+
 
 .draggable-item
   cursor: pointer
@@ -14,21 +15,21 @@
   margin-bottom: 10px
   display: flex
   justify-content: space-between
-  transition: 0.2s
+  align-items: center
 
 .active
   background: #ffe4d1
 
-
 .draggable-item a
   cursor: pointer
   color: #0e31f5
+  position: absolute
+  right: 10px
+  padding: 1px 10px 3px
+  border-radius: 6px
 
 .draggable-item a:hover
   cursor: pointer
   color: beige
-  background: #61dafb
-
-.draggable
-  display: flex
+  background: #fb8169
 

@@ -1,68 +1,141 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Тестовое задание для компании Funbox
 
-## Available Scripts
+Demo : http://demofunbox.vialfeps.ru/
 
-In the project directory, you can run:
+### Install
 
-### `npm start`
+```sh
+$ npm install
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Run
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+```sh
+$ npm start
+```
+Go to [http://localhost:3000/](http://localhost:3000/)
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Вопрос №1
+Расскажите, чем, на ваш взгляд, отличается хорошее клиентское приложение от
+плохого с точки зрения
+* пользователя;
+* менеджера проекта;
+* дизайнера;
+* верстальщика;
+* серверного программиста. 
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Ответ
+• Для пользователя – наличием интуитивно понятного, адаптивного интерфейса без бесконечно всплывающих модальных окон, скоростью загрузки.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+• Для менеджера проекта хорошим приложением является то, которым доволен заказчик.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+• Для дизайнера - “Хорошо, когда всё выглядит так, как выглядит в моей голове” - знакомый дизайнер                             
 
-### `npm run eject`
+• Для верстальщика – возможностью переиспользовать элементы верстки. Отсутствием “криво” именованных сущностей.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+• Для серверного программиста важно правильно и быстро обрабатывать входящие запросы. Мне кажется для него хорошим клиентским приложением является то, которое правильно формирует запросы к серверу.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Вопрос №2
+Опишите основные особенности разработки крупных многостраничных сайтов,
+функциональность которых может меняться в процессе реализации и поддержки.
+Расскажите о своем опыте работы над подобными сайтами: какие подходы,
+инструменты и технологии вы применяли на практике, с какими проблемами
+сталкивались и как их решали.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Ответ
+Особенности:
+* Выбор правильной структуры проекта;
+* Соблюдение регламента компании/команды, занимающейся разработкой проекта.
+* Выбор стека на этапе зарождения проекта; 
+* Настройка сборщиков и минификаторов.
 
-## Learn More
+В одном из моих проектов, когда я уже во всю использовал HTTP для общения с сервером, я понял 
+что мне нужно отправлять данные на клиент без запроса с его стороны. На этом этапе мне пришлось перенести все с 
+HTTP на websockets, что занело достаточно много времени. Это стоило учесть на этапе зарождения приложения.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Вопрос №3
+При разработке интерфейсов с использованием компонентной архитектуры часто
+используются термины Presentational Сomponents и Сontainer Сomponents. Что
+означают данные термины? Зачем нужно такое разделение, какие у него есть
+плюсы и минусы?
+### Ответ
+Presentational Сomponents служат для отображения входящих данных, а
+Сontainer Сomponents - для работы с данными. Такое разделение дает возможность
+переиспользовать компоненты.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Вопрос №4
+Как устроено наследование в JS? Расскажите о своем опыте реализации JS-
+наследования без использования фреймворков.
+### Ответ
+В JavaScript каждый объект связан с ещё одним объектом — со своим прототипом.
+При попытке обратиться к свойству или методу объекта, поиск сначала выполняется непосредственно в самом объекте.
+Затем, если поиск завершился неудачно, он продолжается в прототипе объекта.
 
-### Code Splitting
+Опыта реализации наследования нет.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Вопрос №5
+Какие библиотеки можно использовать для написания тестов end-to-end во
+фронтенде? Расскажите о своем опыте тестирования веб-приложений.
+### Ответ
+Puppeteer, Jest, Mocha, Cypress, ...
 
-### Analyzing the Bundle Size
+Нет опыта в написании тестов.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Вопрос №6
+Вам нужно реализовать форму для отправки данных на сервер, состоящую из
+нескольких шагов. В вашем распоряжении дизайн формы и статичная верстка, в
+которой не показано, как форма должна работать в динамике. Подробного
+описания, как должны вести себя различные поля в зависимости от 
+действий пользователя, в требованиях к проекту нет. Ваши действия?
+### Ответ
+При наихудшем расскладе реализую свое видение поведения данной формы, изучив готовые решения на просторах интернета.
 
-### Making a Progressive Web App
+## Вопрос №7
+Расскажите, какие инструменты помогают вам экономить время в процессе
+написания, проверки и отладки кода.
+### Ответ
+* React Developer Tools
+* Redux DevTools
+* Vue.js devtools
+* IDE: PHPStorm
+* ESLint
+* npm пакет create-react-app
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-### Advanced Configuration
+## Вопрос №8
+Какие ресурсы вы используете для развития в профессиональной сфере? Приведите
+несколько конкретных примеров (сайты, блоги и так далее).
+Какие ещё области знаний, кроме тех, что непосредственно относятся к работе,
+вам интересны?
+### Ответ
+* https://stackoverflow.com
+* https://developer.mozilla.org
+* https://habr.com
+* https://medium.com
+* books
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+## Вопрос №9
+Расскажите нам немного о себе и предоставьте несколько ссылок на последние
+работы, выполненные вами.
+### Ответ
+Живу в Нижнем Новгороде. Выучился на инженера конструктора-технолога, но счел эту область неинтересной и бесперспективной.
 
-### Deployment
+Начинал свою деятельность с обычной верстки сайтов. 
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+Последний разработанный сайт:
+* http://vialfeps.ru/
+Использовал wordpress, как cms. Сайт имеет адаптивную верстку. Использовал jquery.
 
-### `npm run build` fails to minify
+Набравшись опыта, разработал пару своих SPA проектов:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* Weather App (http://weather.vialfeps.ru/; https://bitbucket.org/lexnnov/weather_app). Прогноз погоды в Нижнем Новгороде. Данные собираются с 3х сервисов (gismeteo, yandex, yahoo). Можно посмотреть как среднюю температуру по этим сервисам, так и отдельно по каждому. В клиентской части использовался REACT.js. На серверной части - Node.js.
+
+* Teldo (https://youtu.be/xiOxDBkE1WE; https://bitbucket.org/lexnnov/teldo_app). Собственный трекер задач с завязкой на telegram боте.
+В клиентской части использовался VUE.js. На серверной части - Node.js. Для обмена данными между клиентом и сервером использовался WebSocket
+
+Люблю осваивать новые технологии, особенно в сфере frontend разработки.
+
+ 

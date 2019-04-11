@@ -3,7 +3,7 @@ import './RouteRedactor.sass'
 import { Container, Draggable } from 'react-smooth-dnd';
 
 
-class DragContainer extends Component {
+class RouteList extends Component {
 
 
 	removeItem = (index) =>{
@@ -28,9 +28,12 @@ class DragContainer extends Component {
 										{p.data}
 									</div>
 									<a onClick={()=> this.removeItem(index)}>x</a>
+
 								</div>
 							</Draggable>
+
 						);
+
 					})}
 				</Container>
 			</div>
@@ -38,4 +41,4 @@ class DragContainer extends Component {
 	}
 }
 
-export default DragContainer;
+export default RouteList;

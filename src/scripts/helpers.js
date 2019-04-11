@@ -1,3 +1,15 @@
+export const generateId = (routes) =>  {
+	let index = 0;
+	routes.forEach(()=>{
+		if(routes.find(x => x.id === index) === undefined){
+			return index
+		} else {
+			index ++
+		}
+	});
+	return index
+};
+
 export const applyDrag = (arr, dragResult) => {
 	const { removedIndex, addedIndex, payload } = dragResult;
 	if (removedIndex === null && addedIndex === null) return arr;
@@ -16,10 +28,3 @@ export const applyDrag = (arr, dragResult) => {
 	return result;
 };
 
-export const generateItems = (count, creator) => {
-	const result = [];
-	for (let i = 0; i < count; i++) {
-		result.push(creator(i));
-	}
-	return result;
-};
